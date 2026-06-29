@@ -1,4 +1,4 @@
-const CACHE_NAME = "olan-space-program-v1";
+const CACHE_NAME = "olan-space-program-v15";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",

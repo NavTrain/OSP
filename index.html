@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="Olan Space" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
-<title>Olan's Space Program</title>
+<title>Olan's Space Program V15</title>
 <style>
   :root{
     --bg:#020817;
@@ -160,7 +160,84 @@
     .icon{width:36px;height:36px;font-size:1.3rem}
   }
 
-/* Mobile app layout */
+/* Version 13 polish: keep HUD and callouts away from the main rocket */
+.stage{
+  background:radial-gradient(circle at 50% 20%,#0d2c56 0%,#020713 58%,#01040c 100%);
+}
+.hud{
+  top:12px;
+  bottom:auto;
+  left:12px;
+  right:auto;
+  width:min(190px,30%);
+  grid-template-columns:1fr;
+  gap:6px;
+}
+.gauge{
+  background:rgba(3,9,19,.74);
+  backdrop-filter:blur(5px);
+  border-color:rgba(101,216,255,.22);
+  box-shadow:0 8px 22px rgba(0,0,0,.26);
+}
+.panel{
+  border-color:rgba(101,216,255,.24);
+}
+.control:hover{
+  background:rgba(101,216,255,.09);
+}
+.mission-card{
+  background:linear-gradient(180deg,rgba(101,216,255,.12),rgba(181,156,255,.07));
+}
+.challenge{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  width:min(250px,42%);
+  z-index:14;
+  display:none;
+  padding:10px;
+  border-radius:18px;
+  border:2px solid rgba(255,218,114,.55);
+  background:linear-gradient(180deg,rgba(36,20,4,.93),rgba(5,11,22,.93));
+  box-shadow:0 18px 42px rgba(0,0,0,.45),0 0 26px rgba(255,218,114,.18);
+  text-align:center;
+}
+.challenge.show{display:block;animation:pop .20s ease-out}
+.challenge-title{
+  font-size:.92rem;
+  font-weight:1000;
+  color:#fff3b0;
+  margin-bottom:6px;
+}
+.challenge-key{
+  width:64px;
+  height:54px;
+  min-height:54px;
+  border-radius:16px;
+  font-size:1.8rem;
+  background:linear-gradient(180deg,#fff3b0,#ffbf47);
+  color:#231400;
+  box-shadow:0 4px 0 rgba(0,0,0,.35);
+}
+.challenge-help{
+  margin-top:5px;
+  font-size:.72rem;
+  font-weight:900;
+  color:#d8e7f7;
+}
+.challenge-meter{
+  height:9px;
+  border-radius:999px;
+  margin-top:7px;
+  background:rgba(255,255,255,.16);
+  overflow:hidden;
+}
+.challenge-meter div{
+  height:100%;
+  width:100%;
+  background:linear-gradient(90deg,#78ffad,#ffda72,#ff7a88);
+}
+
 @media (max-width: 760px){
   html,body{
     height:auto;
@@ -168,10 +245,7 @@
     overflow:auto;
     overscroll-behavior:none;
   }
-  body{
-    display:block;
-    background:radial-gradient(circle at top,#245893 0%,#07152a 46%,#020713 100%);
-  }
+  body{display:block}
   header{
     position:sticky;
     top:0;
@@ -191,10 +265,7 @@
     padding:8px;
   }
   .panel,.stage{border-radius:16px}
-  .panel{
-    display:block;
-    min-height:0;
-  }
+  .panel{display:block;min-height:0}
   .panel:first-child{order:1}
   .stage{
     order:2;
@@ -203,116 +274,102 @@
   }
   .panel:last-child{order:3}
   .head{padding:8px 10px}
-  .controls{
-    padding:8px;
-    gap:6px;
-  }
-  .control{
-    grid-template-columns:34px 1fr;
-    gap:7px;
-    padding:6px;
-    border-radius:13px;
-  }
-  .icon{
-    width:34px;
-    height:34px;
-    border-radius:11px;
-    font-size:1.2rem;
-  }
+  .controls{padding:8px;gap:6px}
+  .control{grid-template-columns:34px 1fr;gap:7px;padding:6px;border-radius:13px}
+  .icon{width:34px;height:34px;border-radius:11px;font-size:1.2rem}
   label{font-size:.62rem;margin-bottom:2px}
-  select{
-    min-height:38px;
-    font-size:.94rem;
-    border-radius:10px;
-  }
-  .buttons{
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    padding:8px;
-    background:rgba(8,20,38,.96);
-  }
-  button{
-    min-height:48px;
-    border-radius:14px;
-    font-size:.95rem;
-  }
-  .mission-card{
-    margin:8px;
-    padding:10px;
-    border-radius:15px;
-  }
+  select{min-height:38px;font-size:.94rem;border-radius:10px}
+  .buttons{grid-template-columns:1fr 1fr;gap:7px;padding:8px;background:rgba(8,20,38,.96)}
+  button{min-height:48px;border-radius:14px;font-size:.95rem}
+  .mission-card{margin:8px;padding:10px;border-radius:15px}
   .mission-icon{font-size:2rem}
   .mission-title{font-size:1rem}
   .simple{font-size:.82rem}
   .badges{gap:5px}
   .badge{font-size:.68rem;padding:4px 7px}
-  .lights{
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
-    padding:0 8px 8px;
-  }
-  .light{
-    min-height:50px;
-    padding:5px;
-    border-radius:12px;
-  }
-  .lamp{
-    width:12px;
-    height:12px;
-    margin-bottom:3px;
-  }
+  .lights{grid-template-columns:repeat(4,1fr);gap:5px;padding:0 8px 8px}
+  .light{min-height:50px;padding:5px;border-radius:12px}
+  .lamp{width:12px;height:12px;margin-bottom:3px}
   .light-title{font-size:.55rem}
   .light-word{font-size:.72rem}
-  .status{
-    margin:0 8px 8px;
-    padding:9px;
-    min-height:62px;
-    border-radius:14px;
-  }
+  .status{margin:0 8px 8px;padding:9px;min-height:62px;border-radius:14px}
   .big-word{font-size:1rem}
   .events{display:none}
   .hud{
+    top:8px;
     left:8px;
     right:8px;
-    bottom:8px;
-    grid-template-columns:repeat(2,1fr);
-    gap:6px;
+    width:auto;
+    grid-template-columns:repeat(4,1fr);
+    gap:5px;
   }
-  .gauge{
-    padding:6px;
-    border-radius:11px;
-  }
-  .gauge-name{font-size:.56rem}
-  .gauge-num{font-size:.78rem}
-  .meter{height:6px}
-  canvas{
-    touch-action:none;
-  }
-  .flash{
-    max-width:90vw;
-    padding:16px 18px;
-  }
+  .gauge{padding:5px;border-radius:10px}
+  .gauge-name{font-size:.52rem}
+  .gauge-num{font-size:.68rem}
+  .meter{height:5px}
+  canvas{touch-action:none}
+  .flash{max-width:90vw;padding:16px 18px}
   .flash .emoji{font-size:3rem}
   .flash .title{font-size:2rem}
   .flash .sub{font-size:.9rem}
+  .challenge{
+    right:8px;
+    bottom:8px;
+    left:8px;
+    width:auto;
+    padding:8px;
+  }
+  .challenge-key{
+    width:58px;
+    height:48px;
+    min-height:48px;
+  }
 }
 
-@media (max-width: 430px){
-  .stage{
-    height:52vh;
-    min-height:315px;
-  }
-  .lights{
-    grid-template-columns:repeat(2,1fr);
-  }
-  header{
-    gap:6px;
-  }
-  h1{
-    font-size:.98rem;
-  }
-  .pill{
-    font-size:.75rem;
+@media (max-width:430px){
+  .stage{height:52vh;min-height:315px}
+  .lights{grid-template-columns:repeat(2,1fr)}
+  header{gap:6px}
+  h1{font-size:.98rem}
+  .pill{font-size:.75rem}
+  .hud{grid-template-columns:repeat(2,1fr);right:auto;width:180px}
+}
+
+
+/* Version 15: required keyboard stage gates */
+.challenge{
+  left:50%;
+  right:auto;
+  bottom:18px;
+  transform:translateX(-50%);
+  width:min(360px,54%);
+  border-color:rgba(120,255,173,.65);
+  background:linear-gradient(180deg,rgba(8,39,30,.96),rgba(5,11,22,.96));
+}
+.challenge-title{
+  font-size:1rem;
+  color:#caffdc;
+}
+.challenge-key{
+  width:76px;
+  height:62px;
+  min-height:62px;
+  font-size:2.1rem;
+  background:linear-gradient(180deg,#caffdc,#78ffad);
+}
+.challenge-help{
+  color:#ffffff;
+}
+.challenge.waiting{
+  box-shadow:0 20px 50px rgba(0,0,0,.50),0 0 36px rgba(120,255,173,.30);
+}
+@media (max-width:760px){
+  .challenge{
+    left:8px;
+    right:8px;
+    bottom:8px;
+    width:auto;
+    transform:none;
   }
 }
 
@@ -320,7 +377,7 @@
 </head>
 <body>
 <header>
-  <h1>🚀 Olan's Space Program</h1>
+  <h1>🚀 Olan's Space Program V15</h1>
   <div class="pill" id="bestScore">⭐ Best 0</div>
 </header>
 
@@ -328,7 +385,7 @@
   <section class="panel">
     <div class="head">
       <h2>Mission Builder</h2>
-      <span class="tiny">QA polish</span>
+      <span class="tiny">Keyboard gates</span>
     </div>
     <div class="controls">
       <div class="control">
@@ -421,6 +478,12 @@
         <div class="title" id="overlayTitle">SUCCESS!</div>
         <div class="sub" id="overlaySub">Mission complete</div>
       </div>
+    </div>
+    <div class="challenge" id="challenge">
+      <div class="challenge-title" id="challengeText">Thruster wobble!</div>
+      <button class="challenge-key" id="challengeButton">F</button>
+      <div class="challenge-help">Press the key or tap the button</div>
+      <div class="challenge-meter"><div id="challengeBar"></div></div>
     </div>
     <div class="hud">
       <div class="gauge">
@@ -528,7 +591,8 @@
     ev2Icon:$("ev2Icon"), ev2Title:$("ev2Title"), ev2Sub:$("ev2Sub"),
     ev3Icon:$("ev3Icon"), ev3Title:$("ev3Title"), ev3Sub:$("ev3Sub"),
     ev4Icon:$("ev4Icon"), ev4Title:$("ev4Title"), ev4Sub:$("ev4Sub"),
-    ev5Icon:$("ev5Icon"), ev5Title:$("ev5Title"), ev5Sub:$("ev5Sub")
+    ev5Icon:$("ev5Icon"), ev5Title:$("ev5Title"), ev5Sub:$("ev5Sub"),
+    challenge:$("challenge"), challengeText:$("challengeText"), challengeButton:$("challengeButton"), challengeBar:$("challengeBar")
   };
 
   const payloads = {
@@ -666,7 +730,10 @@
   const state = {
     mode:"build", start:0, progress:0, altitude:0, speed:0, fuel:100, score:0,
     stars:[], confetti:[], orbitAngle:-1.2, lastEvent:0, calloutText:"", calloutIcon:"🚀", calloutUntil:0,
-    best:Number(localStorage.getItem("olansSpaceProgramV12Best") || 0), overlayTimer:null
+    challengeActive:false, challengeDone:false, challengeAt:2, challengeKey:"F", challengeStart:0, challengeDeadline:0, challengeBonus:0,
+    stageGates:[], finalGates:[], gateIndex:0, finalGateIndex:0, gateMode:"flight", gatePauseStart:0,
+    flightPauseAccum:0, finalPauseAccum:0, currentGate:null, finalProgress:0, finalCelebrated:false,
+    best:Number(localStorage.getItem("olansSpaceProgramV15Best") || 0), overlayTimer:null
   };
 
   function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
@@ -676,6 +743,9 @@
   function currentPayload(){return payloads[el.payload.value] || payloads.cubesat}
   function visualFor(dest){return visuals[dest.visual] || visuals.earth}
   function difficultyName(n){return ["","Easy","Normal","Hard","Expert","Legend"][n] || "Legend"}
+  function isCrewedMission(d){
+    return d.p.kind==="crew" || (d.mt.scene==="station" && d.p.kind==="crew") || (d.mt.scene==="lander" && d.p.kind==="crew");
+  }
 
   function makeStars(){
     state.stars=Array.from({length:170},()=>({x:Math.random(),y:Math.random(),r:rand(.45,1.8),s:rand(.12,.95),tw:rand(0,Math.PI*2)}));
@@ -797,14 +867,14 @@
     const scene=mt.scene;
     if(scene==="station"){
       el.ev4Icon.textContent="🛰️"; el.ev4Title.textContent="Station approach"; el.ev4Sub.textContent="match orbit";
-      el.ev5Icon.textContent="🤝"; el.ev5Title.textContent="Docking"; el.ev5Sub.textContent="mission complete";
+      el.ev5Icon.textContent=d.p.kind==="crew"?"🌍":"🤝"; el.ev5Title.textContent=d.p.kind==="crew"?"Return home":"Docking"; el.ev5Sub.textContent=d.p.kind==="crew"?"crew safe":"mission complete";
     } else if(scene==="orbiter" || scene==="earthOrbit"){
       el.ev4Icon.textContent="🔥"; el.ev4Title.textContent="Orbit burn"; el.ev4Sub.textContent="slow down";
       el.ev5Icon.textContent="🔄"; el.ev5Title.textContent="Orbit"; el.ev5Sub.textContent="circle world";
     } else if(scene==="lander"){
       el.ev4Icon.textContent=d.dest.atmosphere==="none"?"🛬":"🔥"; el.ev4Title.textContent=d.dest.atmosphere==="none"?"Powered descent":"Entry";
       el.ev4Sub.textContent=d.dest.atmosphere==="none"?"slow down":"through atmosphere";
-      el.ev5Icon.textContent="🏁"; el.ev5Title.textContent="Touchdown"; el.ev5Sub.textContent="land safely";
+      el.ev5Icon.textContent=d.p.kind==="crew"?"🌍":"🏁"; el.ev5Title.textContent=d.p.kind==="crew"?"Return Earth":"Touchdown"; el.ev5Sub.textContent=d.p.kind==="crew"?"crew safe":"land safely";
     } else if(scene==="atmospheric"){
       el.ev4Icon.textContent="🔥"; el.ev4Title.textContent="Atmospheric entry"; el.ev4Sub.textContent="heat shield";
       el.ev5Icon.textContent="📡"; el.ev5Title.textContent="Data"; el.ev5Sub.textContent="send science";
@@ -847,24 +917,26 @@
     if(d.mt.need.includes("landing")&&d.protection!=="lander"&&d.protection!=="heat") kitGood=false;
     setLamp(el.lampKit,el.wordKit,kitGood?"good":"bad","GO","OK","NO");
 
-    if(d.success){el.bigWord.textContent="READY!";el.tip.textContent="This mission can work."}
+    if(d.success){el.bigWord.textContent="READY!";el.tip.textContent="This mission can work. During flight, press the keys to pass each stage."}
     else if(d.close){el.bigWord.textContent="CLOSE!";el.tip.textContent=d.tip}
     else {el.bigWord.textContent="TWEAK!";el.tip.textContent=d.tip}
 
     configureEvents();
-    state.score=d.score;
+    if(state.mode==="build") state.score=d.score;
     if(state.mode==="build"){
       state.altitude=0;state.speed=0;state.fuel=100;setEvent(0);updateHud();draw();
     }
   }
 
   function missionDescription(d){
+    if(d.mt.scene==="station" && d.p.kind==="crew") return "Dock with the space station, then bring the crew safely home.";
     if(d.mt.scene==="station") return "Visit the space station and dock carefully.";
     if(d.mt.scene==="earthOrbit") return "Deploy a satellite into Earth orbit.";
     if(d.mt.scene==="orbiter") return `Enter orbit around ${d.dest.name}.`;
     if(d.mt.scene==="flyby") return `Fly past ${d.dest.name}, take pictures and send data home.`;
     if(d.mt.scene==="atmospheric") return `Send a probe into ${d.dest.name}'s atmosphere.`;
     if(d.mt.scene==="impactor") return `Deliberately impact ${d.dest.name} for science.`;
+    if(d.mt.scene==="lander" && d.p.kind==="crew") return `Land at ${d.dest.name}, then return the crew safely to Earth.`;
     if(d.mt.scene==="lander") return `Land safely on ${d.dest.name}.`;
     if(d.mt.scene==="solar") return "Fly close to the Sun with the heat shield forward.";
     if(d.mt.scene==="voyager") return "Tour the giant planets and escape toward interstellar space.";
@@ -892,6 +964,158 @@
     state.overlayTimer=setTimeout(()=>el.overlay.classList.remove("show"),ms);
   }
 
+  function stageLabelFor(d){
+    if(d.mt.scene==="station") return {icon:"🛰️",text:"Line up with station"};
+    if(d.mt.scene==="earthOrbit" || d.mt.scene==="orbiter") return {icon:"🔄",text:"Orbit insertion burn"};
+    if(d.mt.scene==="lander") return {icon:d.dest.atmosphere==="none"?"🛬":"🔥",text:d.dest.atmosphere==="none"?"Powered descent":"Entry burn"};
+    if(d.mt.scene==="atmospheric") return {icon:"🔥",text:"Heat shield entry"};
+    if(d.mt.scene==="impactor") return {icon:"☄️",text:"Impact path lock"};
+    if(d.mt.scene==="solar") return {icon:"☀️",text:"Solar shield forward"};
+    if(d.mt.scene==="voyager") return {icon:"📀",text:"Grand tour course"};
+    return {icon:"📸",text:"Science flyby"};
+  }
+
+  function planChallenge(d){
+    const stage=stageLabelFor(d);
+    state.challengeActive=false;
+    state.challengeDone=false;
+    state.challengeBonus=0;
+    state.gateIndex=0;
+    state.finalGateIndex=0;
+    state.flightPauseAccum=0;
+    state.finalPauseAccum=0;
+    state.currentGate=null;
+    state.stageGates=[
+      {at:0.00,icon:"🚀",text:"Ignition check",help:"Press the key to launch"},
+      {at:0.24,icon:d.boosterCount>0?"💥":"🌪️",text:d.boosterCount>0?"Booster separation":"Max Q check",help:"Press the key to continue"},
+      {at:0.50,icon:"🔥",text:"Stage separation",help:"Press the key for upper stage"},
+      {at:0.76,icon:stage.icon,text:stage.text,help:"Press the key for mission phase"}
+    ];
+    state.finalGates=[];
+    hideChallenge();
+  }
+
+  function planFinalGates(d){
+    state.finalGateIndex=0;
+    state.finalPauseAccum=0;
+    if(isCrewedMission(d)){
+      state.finalGates=[
+        {at:0.42,icon:"🤝",text:d.mt.scene==="station"?"Undock from station":"Ascent stage",help:"Press the key to start return"},
+        {at:0.58,icon:"🌍",text:"Return burn to Earth",help:"Press the key to come home"},
+        {at:0.78,icon:"🪂",text:"Earth re-entry",help:"Press the key to deploy return sequence"}
+      ];
+    } else if(d.mt.scene==="station"){
+      state.finalGates=[
+        {at:0.82,icon:"🤝",text:"Docking port aligned",help:"Press the key to dock"}
+      ];
+    } else if(d.mt.scene==="orbiter" || d.mt.scene==="earthOrbit"){
+      state.finalGates=[
+        {at:0.62,icon:"🔄",text:"Orbit insertion burn",help:"Press the key to enter orbit"}
+      ];
+    } else if(d.mt.scene==="lander"){
+      state.finalGates=[
+        {at:0.44,icon:d.dest.atmosphere==="none"?"🛬":"🔥",text:d.dest.atmosphere==="none"?"Powered descent":"Entry burn",help:"Press the key for descent"},
+        {at:0.82,icon:"🏁",text:"Touchdown check",help:"Press the key to land"}
+      ];
+    } else if(d.mt.scene==="atmospheric"){
+      state.finalGates=[
+        {at:0.66,icon:"🔥",text:"Atmospheric data run",help:"Press the key to transmit data"}
+      ];
+    } else if(d.mt.scene==="impactor"){
+      state.finalGates=[
+        {at:0.84,icon:"☄️",text:"Impact science lock",help:"Press the key for final impact"}
+      ];
+    } else if(d.mt.scene==="solar"){
+      state.finalGates=[
+        {at:0.64,icon:"☀️",text:"Closest solar pass",help:"Press the key to hold shield"}
+      ];
+    } else if(d.mt.scene==="voyager"){
+      state.finalGates=[
+        {at:0.35,icon:"🟤",text:"Jupiter gravity assist",help:"Press the key for flyby"},
+        {at:0.58,icon:"🪐",text:"Saturn gravity assist",help:"Press the key for flyby"},
+        {at:0.78,icon:"✨",text:"Heliopause crossing",help:"Press the key to go interstellar"}
+      ];
+    } else {
+      state.finalGates=[
+        {at:0.55,icon:"📸",text:"Science camera ready",help:"Press the key to take pictures"}
+      ];
+    }
+  }
+
+  function pickGateKey(){
+    const letters=["A","S","D","F","J","K","L"];
+    let key=letters[Math.floor(Math.random()*letters.length)];
+    if(key===state.challengeKey) key=letters[(letters.indexOf(key)+2)%letters.length];
+    return key;
+  }
+
+  function startGate(gate,mode){
+    state.challengeKey=pickGateKey();
+    state.challengeActive=true;
+    state.challengeDone=true;
+    state.gateMode=mode;
+    state.currentGate=gate;
+    state.gatePauseStart=performance.now();
+    state.challengeStart=performance.now();
+    state.challengeDeadline=state.challengeStart+8500;
+    el.challengeText.textContent=`${gate.icon} ${gate.text}`;
+    el.challengeButton.textContent=state.challengeKey;
+    const help=el.challenge.querySelector(".challenge-help");
+    if(help) help.textContent=`${gate.help} — press ${state.challengeKey}`;
+    el.challengeBar.style.width="100%";
+    el.challenge.classList.add("show","waiting");
+    say("⌨️",`Press ${state.challengeKey}`,1200);
+  }
+
+  function hideChallenge(){
+    state.challengeActive=false;
+    if(el.challenge) el.challenge.classList.remove("show","waiting");
+  }
+
+  function completeChallenge(){
+    if(!state.challengeActive) return;
+    const now=performance.now();
+    if(state.gateMode==="flight"){
+      state.flightPauseAccum += now-state.gatePauseStart;
+      state.gateIndex++;
+    } else {
+      state.finalPauseAccum += now-state.gatePauseStart;
+      state.finalGateIndex++;
+    }
+    state.challengeActive=false;
+    state.challengeBonus+=2;
+    hideChallenge();
+    spawnMiniConfetti();
+    say("✅","Go for next stage!",1700);
+  }
+
+  function failKeyGate(){
+    state.challengeActive=false;
+    hideChallenge();
+    state.mode="fail";
+    el.launch.disabled=false;
+    showOverlay("🙂","HARD LUCK!","Try again — watch for the key.",3000);
+    say("🔁","Try again!",2400);
+    draw();
+    setTimeout(()=>{if(state.mode==="fail")reset()},3200);
+  }
+
+  function updateChallenge(){
+    if(!state.challengeActive) return;
+    const now=performance.now();
+    const left=clamp((state.challengeDeadline-now)/(state.challengeDeadline-state.challengeStart),0,1);
+    el.challengeBar.style.width=`${left*100}%`;
+    if(left<=0) failKeyGate();
+  }
+
+
+  function spawnMiniConfetti(){
+    const cols=["#65d8ff","#78ffad","#ffda72","#ffffff"];
+    for(let i=0;i<32;i++){
+      state.confetti.push({x:rand(canvas.width*.38,canvas.width*.62),y:rand(canvas.height*.22,canvas.height*.44),vx:rand(-1.8,1.8),vy:rand(-1.2,1.4),w:rand(3,7),h:rand(3,8),col:cols[Math.floor(Math.random()*cols.length)],life:rand(.55,.9)});
+    }
+  }
+
   function roundedRect(x,y,w,h,r){
     ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
   }
@@ -908,13 +1132,25 @@
   }
 
   function drawCallout(){
+    if(state.challengeActive) return;
     if(!state.calloutText || performance.now()>state.calloutUntil) return;
     const w=canvas.width,h=canvas.height;
     const alpha=clamp((state.calloutUntil-performance.now())/450,0,1);
-    ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle="rgba(3,9,19,.78)";ctx.strokeStyle="rgba(255,255,255,.22)";ctx.lineWidth=2;
-    roundedRect(w*.5-210,h*.08,420,64,18);ctx.fill();ctx.stroke();
-    ctx.font=`900 ${Math.max(22,h*.038)}px system-ui`;ctx.textAlign="left";ctx.fillStyle="#fff";ctx.fillText(state.calloutIcon,w*.5-188,h*.08+41);
-    ctx.font=`900 ${Math.max(15,h*.026)}px system-ui`;ctx.fillText(state.calloutText,w*.5-145,h*.08+40);
+    const boxW=Math.min(390,w*.56), boxH=56;
+    const x=Math.max(14,w*.50-boxW*.50), y=h-boxH-18;
+    ctx.save();
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle="rgba(3,9,19,.78)";
+    ctx.strokeStyle="rgba(101,216,255,.28)";
+    ctx.lineWidth=2;
+    roundedRect(x,y,boxW,boxH,16);ctx.fill();ctx.stroke();
+    ctx.font=`900 ${Math.max(19,h*.032)}px system-ui`;
+    ctx.textAlign="left";
+    ctx.fillStyle="#fff";
+    ctx.fillText(state.calloutIcon,x+16,y+36);
+    ctx.font=`900 ${Math.max(13,h*.022)}px system-ui`;
+    const text=state.calloutText.length>32?state.calloutText.slice(0,31)+"…":state.calloutText;
+    ctx.fillText(text,x+54,y+35);
     ctx.restore();
   }
 
@@ -1127,7 +1363,7 @@
     ctx.restore();
   }
 
-  function drawPayload(x,y,scale=1,spin=0){
+  function drawPayload(x,y,scale=1,spin=0,thrust=false){
     const p=currentPayload();
     ctx.save();ctx.translate(x,y);ctx.rotate(spin);ctx.scale(scale,scale);ctx.strokeStyle="#7f93a8";ctx.lineWidth=2;
     if(p.kind==="crew"){
@@ -1145,6 +1381,14 @@
       ctx.fillStyle="#dceafa";roundedRect(-18,-14,36,28,5);ctx.fill();ctx.stroke();ctx.fillStyle="#65d8ff";ctx.fillRect(-62,-12,40,24);ctx.fillRect(22,-12,40,24);ctx.strokeRect(-62,-12,40,24);ctx.strokeRect(22,-12,40,24);
       if(p.name.includes("Impactor")){ctx.fillStyle="#ff7a88";ctx.beginPath();ctx.arc(0,0,12,0,Math.PI*2);ctx.fill()}
       if(p.name.includes("Atmospheric")){ctx.fillStyle="#ffda72";ctx.beginPath();ctx.arc(0,0,10,0,Math.PI*2);ctx.fill()}
+    }
+    if(thrust){
+      ctx.fillStyle="rgba(255,156,52,.95)";
+      ctx.beginPath();
+      ctx.moveTo(-22,-7);ctx.lineTo(-22,7);ctx.lineTo(-52,0);ctx.closePath();ctx.fill();
+      ctx.fillStyle="rgba(255,244,154,.95)";
+      ctx.beginPath();
+      ctx.moveTo(-22,-3);ctx.lineTo(-22,3);ctx.lineTo(-40,0);ctx.closePath();ctx.fill();
     }
     ctx.restore();
   }
@@ -1198,17 +1442,34 @@
   }
 
 
+  function flightDuration(d){
+    return 16500;
+  }
+
   function finalDuration(d){
-    if(d.mt.scene==="voyager") return 13500;
-    if(d.mt.scene==="lander") return 10500;
-    if(d.mt.scene==="station") return 8500;
-    if(d.mt.scene==="orbiter" || d.mt.scene==="earthOrbit") return 7200;
-    if(d.mt.scene==="solar") return 8500;
-    return 8200;
+    if(isCrewedMission(d)) return 19000;
+    if(d.mt.scene==="voyager") return 15500;
+    if(d.mt.scene==="lander") return 12500;
+    if(d.mt.scene==="station") return 10000;
+    if(d.mt.scene==="orbiter" || d.mt.scene==="earthOrbit") return 9000;
+    if(d.mt.scene==="solar") return 10500;
+    return 9800;
   }
 
   function drawCruiseScene(p){
     const d=getDesign(), w=canvas.width, h=canvas.height;
+
+    if(d.mt.scene==="earthOrbit"){
+      drawEarthOrbitScene(clamp(p*.9,0,1),false);
+      title("CLIMBING TO EARTH ORBIT");
+      return;
+    }
+
+    if(d.mt.scene==="station"){
+      drawStationScene(clamp(p*.75,0,1),false);
+      return;
+    }
+
     ctx.fillStyle="#020814";
     ctx.fillRect(0,0,w,h);
     drawStars(1,performance.now()*.010);
@@ -1239,7 +1500,7 @@
       ctx.bezierCurveTo(w*.65,h*.32,w*.78,h*.30,w*.92,h*.25);
       ctx.stroke();
       const q=clamp(p,0,1),x=w*.18+q*w*.74,y=h*.64-Math.sin(q*Math.PI)*h*.26;
-      drawPayload(x,y,.82,q*2);
+      drawPayload(x,y,.82,q*2,true);
       title("DEEP SPACE CRUISE");
       return;
     }
@@ -1248,6 +1509,7 @@
     drawPlanet(w*.80,h*.36,v,.55);
     if(d.dest.parent){
       drawPlanet(w*.74,h*.67,visuals[d.dest.parent],.35);
+      drawMoons(d.dest.parent,w*.74,h*.67,.32);
     }
 
     ctx.strokeStyle="rgba(120,255,173,.40)";
@@ -1261,7 +1523,7 @@
     const sx=w*.22, sy=h*.62, mx=w*.48, my=h*.18, ex=w*.75, ey=h*.38;
     const x=(1-q)*(1-q)*sx+2*(1-q)*q*mx+q*q*ex;
     const y=(1-q)*(1-q)*sy+2*(1-q)*q*my+q*q*ey;
-    drawPayload(x,y,.85,q*4);
+    drawPayload(x,y,.85,q*4,true);
     title(`CRUISE TO ${d.dest.name.toUpperCase()}`);
   }
 
@@ -1332,7 +1594,11 @@
   }
 
   function title(text){
-    const w=canvas.width,h=canvas.height;ctx.fillStyle="rgba(255,255,255,.93)";ctx.font=`900 ${Math.max(18,h*.032)}px system-ui`;ctx.textAlign="center";ctx.fillText(text,w*.5,h*.12);
+    const w=canvas.width,h=canvas.height;
+    ctx.fillStyle="rgba(255,255,255,.93)";
+    ctx.font=`900 ${Math.max(17,h*.030)}px system-ui`;
+    ctx.textAlign="center";
+    ctx.fillText(text,w*.56,h*.13);
   }
 
   function drawFlybyPath(cx,cy,v,p){
@@ -1348,7 +1614,7 @@
     const q=clamp(p,0,1);
     if(q<.62){
       const a=q/.62,sx=canvas.width*.12,sy=canvas.height*.78,ex=cx-v.r*1.15,ey=cy-v.r*.65;
-      const x=sx+(ex-sx)*a,y=sy+(ey-sy)*a-Math.sin(a*Math.PI)*canvas.height*.10;drawPayload(x,y,.95,a*4);drawFlame(x-22,y,30,8);
+      const x=sx+(ex-sx)*a,y=sy+(ey-sy)*a-Math.sin(a*Math.PI)*canvas.height*.10;drawPayload(x,y,.95,a*4,true);
     } else {
       state.orbitAngle+=.012;const a=state.orbitAngle,x=cx+Math.cos(a)*v.r*1.80*Math.cos(-.18)-Math.sin(a)*v.r*.88*Math.sin(-.18),y=cy+Math.cos(a)*v.r*1.80*Math.sin(-.18)+Math.sin(a)*v.r*.88*Math.cos(-.18);
       drawPayload(x,y,.95,a*2);
@@ -1408,13 +1674,73 @@
   }
 
   function drawStationScene(p,final=false){
-    const w=canvas.width,h=canvas.height;drawBackground(1);drawPlanet(w*.50,h*.88,visuals.earth,1.25);
-    ctx.strokeStyle="rgba(120,255,173,.30)";ctx.setLineDash([12,10]);ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(w*.50,h*.88,240,98,0,Math.PI*1.05,Math.PI*1.95);ctx.stroke();ctx.setLineDash([]);
-    drawStation(w*.56,h*.40,Math.min(1.1,h/700));
-    const a=clamp(p,0,1),shipX=w*.18+a*w*.30,shipY=h*.58-a*h*.16;if(!final||a<.96)drawPayload(shipX,shipY,.95,a*1.2);
-    if(final&&currentMission().name.includes("Maintenance"))drawAstronaut(w*.48,h*.36,.85);
-    title(final?(currentMission().name.includes("Maintenance")?"SPACEWALK REPAIR COMPLETE":currentMission().name.includes("Crew")?"CREW DOCKED":"CARGO DOCKED"):"SPACE STATION APPROACH");
+    const w=canvas.width,h=canvas.height;
+    drawBackground(1);
+    drawPlanet(w*.50,h*.88,visuals.earth,1.25);
+
+    ctx.strokeStyle="rgba(120,255,173,.30)";
+    ctx.setLineDash([12,10]);
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.ellipse(w*.50,h*.88,240,98,0,Math.PI*1.05,Math.PI*1.95);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const stationX=w*.56, stationY=h*.40, stationScale=Math.min(1.1,h/700);
+    drawStation(stationX,stationY,stationScale);
+
+    const dockX=stationX-58*stationScale, dockY=stationY;
+
+    // Visible docking corridor and port.
+    ctx.save();
+    ctx.strokeStyle="rgba(120,255,173,.48)";
+    ctx.lineWidth=2;
+    ctx.setLineDash([10,8]);
+    ctx.beginPath();
+    ctx.moveTo(dockX-170,dockY+64);
+    ctx.lineTo(dockX,dockY);
+    ctx.lineTo(dockX-170,dockY-64);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle="rgba(255,255,255,.76)";
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.arc(dockX,dockY,18*stationScale,0,Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+
+    const a=clamp(p,0,1);
+    const approach=Math.min(1,a/.82);
+    const shipX=w*.18 + approach*(dockX-w*.18-28);
+    const shipY=h*.58 + approach*(dockY-h*.58);
+    const docked = final && a>.82;
+
+    if(!docked){
+      drawPayload(shipX,shipY,.95,approach*1.2,true);
+    } else {
+      drawPayload(dockX-34,dockY,.82,0,false);
+      ctx.save();
+      ctx.strokeStyle="rgba(120,255,173,.85)";
+      ctx.lineWidth=4;
+      ctx.beginPath();
+      ctx.arc(dockX,dockY,24*stationScale,0,Math.PI*2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    if(final&&currentMission().name.includes("Maintenance")){
+      drawAstronaut(w*.48,h*.36,.85);
+      ctx.strokeStyle="rgba(255,255,255,.55)";
+      ctx.beginPath();ctx.moveTo(w*.49,h*.37);ctx.lineTo(w*.53,h*.40);ctx.stroke();
+    }
+
+    const label = !final ? "SPACE STATION RENDEZVOUS" :
+      currentMission().name.includes("Maintenance") ? "DOCKED: SPACEWALK COMPLETE" :
+      currentPayload().kind==="crew" ? "DOCKED: CREW VISIT COMPLETE" :
+      "DOCKED: CARGO DELIVERED";
+    title(label);
   }
+
 
   function drawStation(cx,cy,scale){
     ctx.save();ctx.translate(cx,cy);ctx.scale(scale,scale);ctx.strokeStyle="#dce8f5";ctx.lineWidth=2;ctx.fillStyle="#d7e1eb";roundedRect(-42,-14,84,28,6);ctx.fill();ctx.stroke();ctx.fillStyle="#7bdcff";ctx.fillRect(-150,-18,86,36);ctx.fillRect(64,-18,86,36);ctx.strokeRect(-150,-18,86,36);ctx.strokeRect(64,-18,86,36);ctx.strokeStyle="#f1f5ff";ctx.beginPath();ctx.moveTo(-64,0);ctx.lineTo(-42,0);ctx.moveTo(42,0);ctx.lineTo(64,0);ctx.moveTo(0,-14);ctx.lineTo(0,-42);ctx.moveTo(0,14);ctx.lineTo(0,42);ctx.stroke();ctx.fillStyle="#f6f7ff";ctx.beginPath();ctx.arc(0,-44,14,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();
@@ -1449,11 +1775,181 @@
     title("VOYAGER-STYLE INTERSTELLAR MISSION");
   }
 
+
+  function drawCrewedMissionScene(p){
+    const d=getDesign();
+    const q=clamp(p,0,1);
+
+    if(d.mt.scene==="station"){
+      if(q<.42){ drawStationScene(q/.42,true); return; }
+      if(q<.58){ drawUndockScene((q-.42)/.16); return; }
+      if(q<.78){ drawReturnCruiseScene((q-.58)/.20); return; }
+      drawEarthReentryScene((q-.78)/.22);
+      return;
+    }
+
+    if(d.mt.scene==="lander"){
+      if(q<.48){ drawApproachScene(q/.48,true); return; }
+      if(q<.62){ drawAscentFromWorldScene((q-.48)/.14); return; }
+      if(q<.78){ drawReturnCruiseScene((q-.62)/.16); return; }
+      drawEarthReentryScene((q-.78)/.22);
+      return;
+    }
+
+    drawApproachScene(q,true);
+  }
+
+  function drawUndockScene(p){
+    const w=canvas.width,h=canvas.height;
+    drawBackground(1);
+    drawPlanet(w*.50,h*.88,visuals.earth,1.25);
+    const stationX=w*.56, stationY=h*.40, stationScale=Math.min(1.1,h/700);
+    drawStation(stationX,stationY,stationScale);
+    const dockX=stationX-58*stationScale, dockY=stationY;
+    const q=clamp(p,0,1);
+    const x=dockX-34-q*w*.18;
+    const y=dockY+q*h*.10;
+    drawPayload(x,y,.88,-q*.4,true);
+    title("UNDOCKING FOR EARTH RETURN");
+  }
+
+  function drawReturnCruiseScene(p){
+    const w=canvas.width,h=canvas.height;
+    ctx.fillStyle="#020814";
+    ctx.fillRect(0,0,w,h);
+    drawStars(1,performance.now()*.011);
+
+    const d=getDesign();
+    if(d.dest.visual && d.dest.visual!=="earth" && d.dest.visual!=="earthOrbit"){
+      drawPlanet(w*.20,h*.34,visualFor(d.dest),.55);
+    }
+
+    const earth={...visuals.earth,r:70};
+    drawPlanet(w*.78,h*.62,earth,1);
+
+    ctx.strokeStyle="rgba(120,255,173,.42)";
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.moveTo(w*.25,h*.38);
+    ctx.quadraticCurveTo(w*.48,h*.18,w*.72,h*.56);
+    ctx.stroke();
+
+    const q=clamp(p,0,1);
+    const sx=w*.25, sy=h*.38, mx=w*.48, my=h*.18, ex=w*.72, ey=h*.56;
+    const x=(1-q)*(1-q)*sx+2*(1-q)*q*mx+q*q*ex;
+    const y=(1-q)*(1-q)*sy+2*(1-q)*q*my+q*q*ey;
+    drawPayload(x,y,.90,q*3,true);
+    title("RETURN BURN TO EARTH");
+  }
+
+  function drawAscentFromWorldScene(p){
+    const d=getDesign(), w=canvas.width,h=canvas.height, v=visualFor(d.dest);
+    const horizon=h*.72;
+    ctx.fillStyle="#020814";
+    ctx.fillRect(0,0,w,h);
+    drawStars(1,performance.now()*.01);
+
+    if(d.dest.parent){
+      drawPlanet(w*.80,h*.24,visuals[d.dest.parent],.72);
+      drawMoons(d.dest.parent,w*.80,h*.24,.48);
+    }
+
+    ctx.fillStyle=v.surface||"#8a7f70";
+    ctx.beginPath();
+    ctx.moveTo(0,horizon);
+    for(let x=0;x<=w;x+=40) ctx.lineTo(x,horizon+Math.sin(x*.02+d.dest.id.length)*10);
+    ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fill();
+
+    const q=clamp(p,0,1);
+    const x=w*.52, y=horizon-28-q*h*.38;
+    drawPayload(x,y,1.0,-q*.3,true);
+    drawFlame(x,y+24,45,12);
+    title(`${d.dest.name.toUpperCase()} ASCENT STAGE`);
+  }
+
+  function drawEarthReentryScene(p){
+    const w=canvas.width,h=canvas.height,q=clamp(p,0,1);
+    const g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,"#061736");
+    g.addColorStop(.48,"#1d6aa1");
+    g.addColorStop(1,"#75c4e8");
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,w,h);
+    drawStars(.35,performance.now()*.006);
+    drawClouds(performance.now()*.05);
+
+    // Earth horizon, not a second departure Earth.
+    drawEarthLimb(h+80,h*.72,.95);
+
+    const x=w*.48, y=h*.14+q*h*.58;
+    if(q<.45){
+      drawPayload(x,y,1.0,q*2,false);
+      ctx.strokeStyle="rgba(255,170,80,.92)";
+      ctx.lineWidth=8;
+      ctx.beginPath();ctx.arc(x,y,30,0,Math.PI*2);ctx.stroke();
+      for(let i=0;i<8;i++) drawFlame(x+rand(-14,14),y+22,18+rand(0,15),4);
+      title("EARTH RE-ENTRY");
+    } else if(q<.82){
+      drawPayload(x,y,.95,0,false);
+      ctx.strokeStyle="#f0f3ff";
+      ctx.lineWidth=2;
+      for(let dx of[-14,-4,4,14]){
+        ctx.beginPath();ctx.moveTo(x+dx,y-14);ctx.lineTo(x+dx*1.7,y-78);ctx.stroke();
+      }
+      ctx.fillStyle="#eef4ff";
+      ctx.beginPath();ctx.arc(x,y-88,48,Math.PI,0);ctx.fill();ctx.stroke();
+      title("PARACHUTES DEPLOYED");
+    } else {
+      drawPayload(x,h*.76,.95,0,false);
+      ctx.fillStyle="rgba(120,255,173,.25)";
+      ctx.beginPath();ctx.ellipse(x,h*.81,85,14,0,0,Math.PI*2);ctx.fill();
+      title("CREW SAFELY BACK ON EARTH");
+      drawConfetti();
+    }
+  }
+
+
   function drawFinal(){
     const d=getDesign();
-    const elapsed=performance.now()-state.start;
-    const p=clamp(elapsed/finalDuration(d),0,1);
-    drawApproachScene(p,true);
+
+    if(state.challengeActive && state.gateMode==="final"){
+      updateChallenge();
+      const p=state.finalProgress;
+      if(isCrewedMission(d)) drawCrewedMissionScene(p);
+      else drawApproachScene(p,true);
+      if(state.mode==="final") requestAnimationFrame(draw);
+      return;
+    }
+
+    const elapsed=performance.now()-state.start-state.finalPauseAccum;
+    let p=clamp(elapsed/finalDuration(d),0,1);
+
+    const nextGate=state.finalGates[state.finalGateIndex];
+    if(nextGate && p>=nextGate.at){
+      p=nextGate.at;
+      state.finalProgress=p;
+      if(isCrewedMission(d)) drawCrewedMissionScene(p);
+      else drawApproachScene(p,true);
+      startGate(nextGate,"final");
+      requestAnimationFrame(draw);
+      return;
+    }
+
+    state.finalProgress=p;
+    if(isCrewedMission(d)) drawCrewedMissionScene(p);
+    else drawApproachScene(p,true);
+
+    if(p>=1 && !state.finalCelebrated){
+      state.finalCelebrated=true;
+      setEvent(5);
+      spawnConfetti();
+      if(state.score>state.best){state.best=state.score;localStorage.setItem("olansSpaceProgramV15Best",String(state.best))}
+      el.bestScore.textContent=`⭐ Best ${state.best}`;
+      const title=isCrewedMission(d)?"CREW SAFE!":successTitle(d), icon=isCrewedMission(d)?"🌍":successIcon(d);
+      showOverlay(icon,title,isCrewedMission(d)?`${d.dest.name} visit and Earth return complete`:`${d.dest.name}: ${d.mt.name}`,2800);
+      say(icon,isCrewedMission(d)?"Crew returned to Earth!":`${d.dest.name} mission success!`,3200);
+    }
+
     requestAnimationFrame(draw);
   }
 
@@ -1475,23 +1971,54 @@
   function launch(){
     if(state.mode==="flight")return;
     state.mode="flight";state.start=performance.now();state.progress=0;state.altitude=0;state.speed=0;state.fuel=100;state.score=0;state.lastEvent=0;state.confetti=[];
-    el.launch.disabled=true;el.overlay.classList.remove("show");setEvent(0);say("🚀","Liftoff!");requestAnimationFrame(step);
+    const d=getDesign();planChallenge(d);
+    el.launch.disabled=true;el.overlay.classList.remove("show");setEvent(0);say("⌨️","Get ready for the key!",1400);requestAnimationFrame(step);
   }
 
   function step(now){
+    if(state.mode!=="flight") return;
     const d=getDesign();
-    const t=clamp((now-state.start)/10500,0,1);state.progress=t;
-    const maxAlt=d.success?120:d.close?88:45;
-    state.altitude=maxAlt*Math.sin(t*Math.PI/2);
-    state.speed=(d.success?7+d.dest.difficulty*2:d.close?5+d.dest.difficulty:2.5)*Math.pow(t,.82);
-    state.fuel=clamp(100-t*(d.success?86:106),0,100);
-    state.score=Math.round(d.score*clamp(t*1.1,0,1));
+
+    if(state.challengeActive && state.gateMode==="flight"){
+      updateChallenge();
+      updateHud();
+      draw();
+      if(state.mode==="flight") requestAnimationFrame(step);
+      return;
+    }
+
+    const duration=flightDuration(d);
+    let t=clamp((now-state.start-state.flightPauseAccum)/duration,0,1);
+
+    const nextGate=state.stageGates[state.gateIndex];
+    if(nextGate && t>=nextGate.at){
+      t=nextGate.at;
+      state.progress=t;
+      updateFlightState(t,d);
+      updateHud();
+      draw();
+      startGate(nextGate,"flight");
+      requestAnimationFrame(step);
+      return;
+    }
+
+    state.progress=t;
+    updateFlightState(t,d);
 
     let ev=0;if(t>.04)ev=1;if(t>.24)ev=2;if(t>.50)ev=3;if(t>.76)ev=4;if(t>=1&&d.success)ev=5;
     if(ev!==state.lastEvent){state.lastEvent=ev;setEvent(ev);flightCallout(ev,d)}
     updateHud();draw();
     if(t<1)requestAnimationFrame(step);else finishFlight();
   }
+
+  function updateFlightState(t,d){
+    const maxAlt=d.success?120:d.close?88:45;
+    state.altitude=maxAlt*Math.sin(t*Math.PI/2);
+    state.speed=(d.success?7+d.dest.difficulty*2:d.close?5+d.dest.difficulty:2.5)*Math.pow(t,.82);
+    state.fuel=clamp(100-t*(d.success?86:106),0,100);
+    state.score=Math.round(clamp(d.score*clamp(t*1.1,0,1)+state.challengeBonus,0,100));
+  }
+
 
   function flightCallout(ev,d){
     if(ev===1)say("🚀","Tower cleared!");
@@ -1503,12 +2030,10 @@
   function finishFlight(){
     const d=getDesign();el.launch.disabled=false;
     if(d.success){
-      state.mode="final";state.start=performance.now();state.score=d.score;state.fuel=Math.max(6,state.fuel);
-      if(d.score>state.best){state.best=d.score;localStorage.setItem("olansSpaceProgramV12Best",String(state.best))}
-      setEvent(5);spawnConfetti();updateHud();updatePanel();
-      const title=successTitle(d), icon=successIcon(d);
-      showOverlay(icon,title,`${d.dest.name}: ${d.mt.name}`,2600);
-      say(icon,`${d.dest.name} mission success!`,3200);
+      state.mode="final";state.start=performance.now();state.score=clamp(d.score+state.challengeBonus,0,100);state.fuel=Math.max(6,state.fuel);state.finalCelebrated=false;
+      setEvent(4);updateHud();updatePanel();planFinalGates(d);
+      showOverlay("🎯","FINAL PHASE!",`${d.dest.name}: ${d.mt.name}`,1800);
+      say("⌨️","More keys coming!",2200);
       draw();
     } else {
       state.mode="fail";
@@ -1519,11 +2044,13 @@
     }
   }
 
-  function successIcon(d){return d.mt.scene==="orbiter"||d.mt.scene==="earthOrbit"?"🔄":d.mt.scene==="flyby"?"📸":d.mt.scene==="atmospheric"?"🔥":d.mt.scene==="impactor"?"☄️":d.mt.scene==="lander"?"🏁":d.mt.scene==="station"?"🤝":d.mt.scene==="solar"?"☀️":d.mt.scene==="voyager"?"📀":"✅"}
-  function successTitle(d){return d.mt.scene==="orbiter"||d.mt.scene==="earthOrbit"?"ORBIT!":d.mt.scene==="flyby"?"FLYBY!":d.mt.scene==="atmospheric"?"ENTRY!":d.mt.scene==="impactor"?"IMPACT!":d.mt.scene==="lander"?"TOUCHDOWN!":d.mt.scene==="station"?"DOCKED!":d.mt.scene==="solar"?"SUN PASS!":d.mt.scene==="voyager"?"INTERSTELLAR!":"SUCCESS!"}
+  function successIcon(d){if(isCrewedMission(d)) return "🌍"; return d.mt.scene==="orbiter"||d.mt.scene==="earthOrbit"?"🔄":d.mt.scene==="flyby"?"📸":d.mt.scene==="atmospheric"?"🔥":d.mt.scene==="impactor"?"☄️":d.mt.scene==="lander"?"🏁":d.mt.scene==="station"?"🤝":d.mt.scene==="solar"?"☀️":d.mt.scene==="voyager"?"📀":"✅"}
+  function successTitle(d){if(isCrewedMission(d)) return "CREW SAFE!"; return d.mt.scene==="orbiter"||d.mt.scene==="earthOrbit"?"ORBIT!":d.mt.scene==="flyby"?"FLYBY!":d.mt.scene==="atmospheric"?"ENTRY!":d.mt.scene==="impactor"?"IMPACT!":d.mt.scene==="lander"?"TOUCHDOWN!":d.mt.scene==="station"?"DOCKED!":d.mt.scene==="solar"?"SUN PASS!":d.mt.scene==="voyager"?"INTERSTELLAR!":"SUCCESS!"}
 
   function reset(){
-    state.mode="build";state.progress=0;state.altitude=0;state.speed=0;state.fuel=100;state.confetti=[];state.lastEvent=0;el.overlay.classList.remove("show");el.launch.disabled=false;setEvent(0);updatePanel();
+    state.mode="build";state.progress=0;state.altitude=0;state.speed=0;state.fuel=100;state.confetti=[];state.lastEvent=0;
+    state.challengeActive=false;state.challengeDone=false;state.challengeBonus=0;state.stageGates=[];state.finalGates=[];state.gateIndex=0;state.finalGateIndex=0;state.flightPauseAccum=0;state.finalPauseAccum=0;state.currentGate=null;state.finalProgress=0;state.finalCelebrated=false;
+    hideChallenge();el.overlay.classList.remove("show");el.launch.disabled=false;setEvent(0);updatePanel();
   }
 
   function surprise(){
@@ -1537,7 +2064,14 @@
   el.destination.addEventListener("change",()=>{fillMissionTypes();fillPayloads();reset()});
   el.missionType.addEventListener("change",()=>{fillPayloads();reset()});
   [el.payload,el.rocketClass,el.boosters,el.upperStage,el.protection].forEach(x=>x.addEventListener("change",()=>{if(state.mode!=="flight"){state.mode="build";updatePanel()}}));
-  el.launch.addEventListener("click",launch);
+  el.challengeButton.addEventListener("click",completeChallenge);
+  window.addEventListener("keydown",e=>{
+    if(state.challengeActive && e.key.toUpperCase()===state.challengeKey){
+      e.preventDefault();
+      completeChallenge();
+    }
+  });
+    el.launch.addEventListener("click",launch);
   el.reset.addEventListener("click",reset);
   el.random.addEventListener("click",surprise);
   window.addEventListener("resize",()=>{resize();updatePanel()});

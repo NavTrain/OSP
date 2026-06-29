@@ -1,7 +1,7 @@
 {
   "name": "Olan's Space Program",
   "short_name": "Olan Space",
-  "description": "A child-friendly space mission builder game.",
+  "description": "A child-friendly keyboard-learning space mission builder game.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

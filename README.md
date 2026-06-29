@@ -1,33 +1,13 @@
-# Olan's Space Program
+# Olan's Space Program V15 Mobile
 
-Mobile-friendly web app version of Olan's Space Program.
+Upload these files to GitHub Pages:
 
-## How to publish on GitHub Pages
+- `index.html`
+- `manifest.webmanifest`
+- `service-worker.js`
+- `icons/icon-192.png`
+- `icons/icon-512.png`
 
-1. Create a new GitHub repository, for example `olans-space-program`.
-2. Upload all files in this folder to the root of the repository:
-   - `index.html`
-   - `manifest.webmanifest`
-   - `service-worker.js`
-   - the `icons` folder
-3. In GitHub, open the repository.
-4. Go to `Settings` > `Pages`.
-5. Under `Build and deployment`, choose:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-6. Save.
-7. GitHub will give you a web address. Send that link to Olan's mom.
+The icon files must remain inside a folder called `icons`.
 
-## Phone use
-
-Open the GitHub Pages link on a phone.
-
-On iPhone:
-- Tap Share
-- Tap Add to Home Screen
-
-On Android:
-- Open in Chrome
-- Tap the three dots menu
-- Tap Add to Home screen or Install app
+Version 15 adds required keyboard stage gates. The mission pauses before major stages and waits for the player to press the shown key or tap the on-screen key.
